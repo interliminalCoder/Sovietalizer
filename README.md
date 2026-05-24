@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sovietalizer
+
+Explore Soviet culture through a 3D brutalist building. Each floor has doors that reveal recommendations from Soviet cinema, music, literature, architecture and art — powered by the Wikipedia API.
+
+## Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router) |
+| 3D Engine | React Three Fiber + Three.js |
+| Animations | Framer Motion |
+| Styling | Tailwind CSS |
+| Content | Wikipedia REST API |
+| PWA | Service Worker + Web Manifest |
+| Hosting | Vercel |
+
+## Features
+
+- **3D Soviet panel building** — Navigable brutalist architecture with floor sections, balcony slabs, and recessed windows
+- **Interactive doors** — 12 apartment doors (3 per floor, 4 floors) with swing-open animation
+- **Recommendations** — 30 curated Soviet cultural works across 5 categories
+- **Wikipedia integration** — Fetches summary, image, and context on door open
+- **Dynamic time** — Toggle between Day, Afternoon, and Night with changing lighting, lamp glow, and window illumination
+- **Shadows** — Real-time shadow mapping on building, street, and lamp posts
+- **Snow particles** — Falling snow with ground fade-out, atmospheric cold aesthetic
+- **PWA** — Installable on mobile home screen
+
+## Architecture
+
+```
+src/
+├── app/
+│   ├── layout.tsx          # Root layout, metadata, PWA manifest link
+│   ├── page.tsx            # Main page: state management, time toggle, modal
+│   └── globals.css         # Brutalist cold theme
+├── components/
+│   ├── Building3D.tsx      # Canvas, scene lights, time-based config
+│   ├── Floor.tsx           # Single floor section (wall + seam + doors + balconies)
+│   ├── Door.tsx            # 3D apartment door with panel detailing + open animation
+│   ├── Balcony.tsx         # Concrete balcony slab with metal railing
+│   ├── Window3D.tsx        # Recessed window frame with glass + night glow
+│   ├── Street.tsx          # Snow-covered ground plane + lamp posts
+│   ├── LampPost.tsx        # 3D lamp post with warm point light
+│   ├── SnowParticles.tsx   # Falling snow particle system
+│   ├── RecommendationModal.tsx  # Wikipedia content modal with scale animation
+│   ├── TimeToggle.tsx      # Day/Afternoon/Night switcher
+│   └── PwaRegister.tsx     # Service worker registration
+├── lib/
+│   ├── timeConfig.ts       # Time-of-day lighting presets
+│   ├── recommendations.ts  # 30 curated Soviet works across 5 categories
+│   └── wikipedia.ts        # Wikipedia REST API client
+└── public/
+    ├── manifest.json       # PWA manifest
+    ├── sw.js               # Service worker
+    └── icon-192.svg        # App icon
+```
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npx vercel --prod
+```
 
-## Learn More
+Or connect the GitHub repository to Vercel for auto-deploy on push.
 
-To learn more about Next.js, take a look at the following resources:
+## Categories
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Cinema** — Tarkovsky, Eisenstein, Vertov
+- **Music** — Shostakovich, Prokofiev, Red Army Choir
+- **Literature** — Bulgakov, Solzhenitsyn, Akhmatova
+- **Architecture** — Ostankino Tower, Moscow Metro, Palace of the Soviets
+- **Art** — Malevich, Rodchenko, Tatlin
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Credits
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with Next.js, React Three Fiber, and the Wikipedia API.
