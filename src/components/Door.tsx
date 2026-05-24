@@ -28,8 +28,8 @@ export default function Door({ position, onClick, isOpen }: DoorProps) {
     onClick()
   }
 
-  const doorColor = isOpen ? '#3a4a6a' : '#1a2030'
-  const handleColor = '#6a8aaa'
+  const doorColor = isOpen ? '#4a5a7a' : '#2a3048'
+  const handleColor = '#7a9aba'
 
   return (
     <group
