@@ -31,102 +31,105 @@ export default function RecommendationModal({ recommendationId, onClose }: Props
     <AnimatePresence>
       {recommendationId && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-3 sm:p-6"
+          className="fixed inset-0 z-50 flex items-center justify-center p-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.25 }}
         >
           <motion.div
-            className="absolute inset-0 bg-black/60"
+            className="absolute inset-0 bg-black/50"
             onClick={onClose}
           />
 
           <motion.div
-            className="relative w-full sm:max-w-lg max-h-[85vh] overflow-y-auto rounded-xl p-8 shadow-2xl"
+            className="relative w-full max-w-md max-h-[80vh] overflow-y-auto rounded-xl shadow-2xl"
             style={{ backgroundColor: '#0f1422', border: '1px solid #1a2240' }}
-            initial={{ y: 300, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 300, opacity: 0 }}
-            transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+            initial={{ scale: 0.92, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.92, opacity: 0 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
           >
-            {categoryInfo && (
-              <span
-                className="text-xs tracking-[0.2em] uppercase font-medium"
-                style={{ color: '#5a7a9a' }}
-              >
-                {categoryInfo.labelRu} · {categoryInfo.label}
-              </span>
-            )}
+            <div className="p-8">
+              {categoryInfo && (
+                <span
+                  className="text-[11px] tracking-[0.25em] uppercase font-medium"
+                  style={{ color: '#5a7a9a' }}
+                >
+                  {categoryInfo.labelRu} · {categoryInfo.label}
+                </span>
+              )}
 
-            {loading && (
-              <div className="flex justify-center py-12">
-                <div
-                  className="w-8 h-8 rounded-full animate-spin"
-                  style={{
-                    border: '2px solid #1a2240',
-                    borderTopColor: '#5a7a9a',
-                  }}
-                />
-              </div>
-            )}
+              {loading && (
+                <div className="flex justify-center py-12">
+                  <div
+                    className="w-7 h-7 rounded-full animate-spin"
+                    style={{ border: '2px solid #1a2240', borderTopColor: '#5a7a9a' }}
+                  />
+                </div>
+              )}
 
-            {data && !loading && (
-              <>
-                <h2 className="text-2xl font-bold mt-3 mb-4" style={{ color: '#e8ecf4' }}>
-                  {data.title}
-                </h2>
-
-                {data.thumbnail && (
-                  <div className="rounded-lg overflow-hidden mb-5 bg-[#080c18]">
-                    <img
-                      src={data.thumbnail.source}
-                      alt={data.title}
-                      className="w-full h-56 object-cover"
-                    />
-                  </div>
-                )}
-
-                <p className="text-base leading-relaxed" style={{ color: '#b0b8cc' }}>
-                  {data.extract}
-                </p>
-
-                {data.content_urls && (
-                  <a
-                    href={data.content_urls.desktop.page}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block mt-5 text-sm underline hover:opacity-80 transition-opacity"
-                    style={{ color: '#5a7a9a' }}
+              {data && !loading && (
+                <>
+                  <h2
+                    className="text-xl font-semibold mt-3 mb-4 leading-snug"
+                    style={{ color: '#e8ecf4' }}
                   >
-                    Read more on Wikipedia →
-                  </a>
-                )}
-              </>
-            )}
+                    {data.title}
+                  </h2>
 
-            {!data && !loading && rec && (
-              <p className="text-base mt-3" style={{ color: '#6a7080' }}>
-                {rec.title}
-              </p>
-            )}
+                  {data.thumbnail && (
+                    <div className="rounded-lg overflow-hidden mb-5 bg-[#080c18]">
+                      <img
+                        src={data.thumbnail.source}
+                        alt={data.title}
+                        className="w-full h-52 object-cover"
+                      />
+                    </div>
+                  )}
 
-            <button
-              onClick={onClose}
-              className="w-full mt-6 py-3 rounded-lg text-sm font-medium tracking-wide uppercase transition-colors"
-              style={{
-                backgroundColor: '#1a2240',
-                color: '#a8b0c8',
-              }}
-              onPointerEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#2a3050'
-              }}
-              onPointerLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#1a2240'
-              }}
+                  <p className="text-sm leading-relaxed" style={{ color: '#b0b8cc' }}>
+                    {data.extract}
+                  </p>
+
+                  {data.content_urls && (
+                    <a
+                      href={data.content_urls.desktop.page}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block mt-4 text-xs underline hover:opacity-80 transition-opacity"
+                      style={{ color: '#5a7a9a' }}
+                    >
+                      Read on Wikipedia
+                    </a>
+                  )}
+                </>
+              )}
+
+              {!data && !loading && rec && (
+                <p className="text-sm mt-3" style={{ color: '#6a7080' }}>
+                  {rec.title}
+                </p>
+              )}
+            </div>
+
+            <div
+              className="px-8 py-4"
+              style={{ borderTop: '1px solid #1a2240' }}
             >
-              Close the door
-            </button>
+              <button
+                onClick={onClose}
+                className="w-full py-2.5 rounded-lg text-sm font-medium tracking-wide transition-colors"
+                style={{
+                  backgroundColor: '#1a2240',
+                  color: '#a8b0c8',
+                }}
+                onPointerEnter={(e) => { e.currentTarget.style.backgroundColor = '#2a3050' }}
+                onPointerLeave={(e) => { e.currentTarget.style.backgroundColor = '#1a2240' }}
+              >
+                Close
+              </button>
+            </div>
           </motion.div>
         </motion.div>
       )}

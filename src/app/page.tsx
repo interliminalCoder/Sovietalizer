@@ -3,6 +3,9 @@
 import { useState, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import RecommendationModal from '@/components/RecommendationModal'
+import TimeToggle from '@/components/TimeToggle'
+import { type TimeOfDay } from '@/lib/timeConfig'
+import { getRecommendationsForFloor } from '@/lib/recommendations'
 
 const Building3D = dynamic(() => import('@/components/Building3D'), {
   ssr: false,
@@ -19,9 +22,8 @@ const Building3D = dynamic(() => import('@/components/Building3D'), {
   ),
 })
 
-import { getRecommendationsForFloor } from '@/lib/recommendations'
-
 export default function Home() {
+  const [time, setTime] = useState<TimeOfDay>('day')
   const [doorStates, setDoorStates] = useState<Record<string, boolean>>({})
   const [activeRecommendation, setActiveRecommendation] = useState<string | null>(null)
 
@@ -50,26 +52,33 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="w-full h-full relative" style={{ backgroundColor: '#080c18' }}>
-      <div className="absolute top-4 left-0 right-0 z-10 flex justify-center pointer-events-none">
+    <div className="w-full h-full relative overflow-hidden" style={{ backgroundColor: '#080c18' }}>
+      <div className="absolute top-4 left-0 right-0 z-10 flex flex-col items-center gap-2 pointer-events-none">
         <h1
-          className="text-lg font-bold tracking-[0.3em] uppercase"
-          style={{ color: '#5a7a9a', textShadow: '0 0 20px rgba(90, 122, 154, 0.3)' }}
+          className="text-base font-bold tracking-[0.3em] uppercase pointer-events-auto"
+          style={{ color: '#e8ecf4', textShadow: '0 0 20px rgba(0,0,0,0.5)' }}
         >
           Sovietalizer
         </h1>
+        <div className="pointer-events-auto">
+          <TimeToggle time={time} onChange={setTime} />
+        </div>
       </div>
 
       <div className="w-full h-full">
-        <Building3D onDoorClick={handleDoorClick} doorStates={doorStates} />
+        <Building3D
+          onDoorClick={handleDoorClick}
+          doorStates={doorStates}
+          time={time}
+        />
       </div>
 
       <div
-        className="absolute bottom-4 left-0 right-0 z-10 flex justify-center"
-        style={{ color: '#4a5a6a' }}
+        className="absolute bottom-5 left-0 right-0 z-10 flex justify-center pointer-events-none"
+        style={{ color: '#6a7a8a' }}
       >
-        <p className="text-[10px] tracking-widest uppercase">
-          Tap a floor · Open a door
+        <p className="text-[10px] tracking-[0.25em] uppercase">
+          Tap a door · Discover Soviet culture
         </p>
       </div>
 

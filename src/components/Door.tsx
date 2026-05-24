@@ -11,7 +11,7 @@ interface DoorProps {
   index: number
 }
 
-export default function Door({ position, onClick, isOpen }: DoorProps) {
+export default function Door({ position, onClick, isOpen, index }: DoorProps) {
   const groupRef = useRef<THREE.Group>(null)
   const [targetRotation, setTargetRotation] = useState(0)
   const currentRotation = useRef(0)
@@ -28,9 +28,6 @@ export default function Door({ position, onClick, isOpen }: DoorProps) {
     onClick()
   }
 
-  const doorColor = isOpen ? '#4a5a7a' : '#2a3048'
-  const handleColor = '#7a9aba'
-
   return (
     <group
       ref={groupRef}
@@ -44,29 +41,42 @@ export default function Door({ position, onClick, isOpen }: DoorProps) {
         document.body.style.cursor = 'default'
       }}
     >
-      <mesh position={[0.25, 0, 0]}>
-        <boxGeometry args={[0.5, 0.75, 0.04]} />
+      <mesh position={[0.23, 0, 0]}>
+        <boxGeometry args={[0.46, 0.66, 0.04]} />
         <meshStandardMaterial
-          color={doorColor}
-          roughness={0.85}
+          color={isOpen ? '#4a5a7a' : '#2a3048'}
+          roughness={0.8}
           metalness={0.1}
         />
       </mesh>
-      <mesh position={[0.15, 0, 0.03]}>
-        <sphereGeometry args={[0.015, 8, 8]} />
-        <meshStandardMaterial color={handleColor} metalness={0.6} roughness={0.3} />
+
+      <mesh position={[0.23, -0.12, 0.02]}>
+        <planeGeometry args={[0.36, 0.24]} />
+        <meshStandardMaterial
+          color="#3a4050"
+          roughness={0.7}
+          metalness={0.2}
+        />
       </mesh>
-      {isOpen && (
-        <mesh position={[0.25, 0, 0]} renderOrder={1}>
-          <boxGeometry args={[0.52, 0.77, 0.01]} />
-          <meshBasicMaterial
-            color="#2a3a5a"
-            transparent
-            opacity={0.3}
-            depthWrite={false}
-          />
-        </mesh>
-      )}
+
+      <mesh position={[0.23, 0.18, 0.02]}>
+        <planeGeometry args={[0.36, 0.18]} />
+        <meshStandardMaterial
+          color="#3a4050"
+          roughness={0.7}
+          metalness={0.2}
+        />
+      </mesh>
+
+      <mesh position={[0.1, 0.02, 0.03]}>
+        <sphereGeometry args={[0.012, 6, 6]} />
+        <meshStandardMaterial color="#7a9aba" metalness={0.6} roughness={0.3} />
+      </mesh>
+
+      <mesh position={[0.23, 0.22, 0.025]}>
+        <cylinderGeometry args={[0.006, 0.008, 0.015, 6]} />
+        <meshStandardMaterial color="#4a5a6a" metalness={0.5} roughness={0.4} />
+      </mesh>
     </group>
   )
 }
